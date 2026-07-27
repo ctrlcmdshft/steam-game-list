@@ -93,7 +93,8 @@
       list.innerHTML = visible.length ? visible.map(g => `<article class="game" data-appid="${g.id || ''}"><div class="cover">${g.id ? `<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/library_600x900.jpg" alt="" loading="lazy" onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/header.jpg'; this.onerror=null">` : ''}</div><div class="card-body"><h2 class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</h2><div class="tags"></div><p class="details">${g.id ? 'Loading Steam details…' : 'Steam search result'}</p><div class="release"></div><div class="facts"></div><div class="actions">${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></div></div><div class="gallery"><div class="shot-main"></div><div class="thumbnails"><div class="shot-thumb"></div><div class="shot-thumb"></div><div class="shot-thumb"></div></div></div></article>`).join('') : '<div class="empty">No games match that search.</div>';
       hydrateVisibleCards();
     }
-    const detailsCache = new Map(), detailRequests = new Map();
+    const detailsCache = new Map();
+    let libraryRequest;
     function matchesFilter(game) {
       if (activeFilter === 'all') return true;
       const data = game.id && detailsCache.get(String(game.id));
@@ -106,21 +107,19 @@
     async function getDetails(appid) {
       appid = String(appid);
       if (detailsCache.has(appid)) return detailsCache.get(appid);
-      if (detailRequests.has(appid)) return detailRequests.get(appid);
-      const request = fetch(`https://store.steampowered.com/api/appdetails?appids=${appid}&l=en&cc=us`).then(response => response.json()).then(result => {
-        const data = result[appid]?.success ? result[appid].data : null;
-        detailsCache.set(appid, data);
-        return data;
-      }).finally(() => detailRequests.delete(appid));
-      detailRequests.set(appid, request);
-      return request;
+      if (!libraryRequest) libraryRequest = fetch('./game-data.json').then(response => {
+        if (!response.ok) throw new Error('Game metadata is unavailable');
+        return response.json();
+      }).then(records => {
+        Object.entries(records).forEach(([id, data]) => detailsCache.set(id, data));
+      });
+      await libraryRequest;
+      return detailsCache.get(appid) || null;
     }
     async function loadFilterData() {
       if (filterDataLoaded) return;
       const ids = [...new Set(games.map(game => game.id).filter(Boolean))];
-      let next = 0;
-      async function worker() { while (next < ids.length) { const id = ids[next++]; try { await getDetails(id); } catch { detailsCache.set(String(id), null); } } }
-      await Promise.all(Array.from({ length: 4 }, worker));
+      try { await getDetails(ids[0]); } catch { ids.forEach(id => detailsCache.set(String(id), null)); }
       filterDataLoaded = true;
     }
     async function hydrateCard(card) {
