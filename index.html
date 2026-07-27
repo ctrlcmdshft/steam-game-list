@@ -14,36 +14,30 @@
     .eyebrow { color:var(--blue); text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; font-weight:700; }
     h1 { margin:.25rem 0 .5rem; font-size:clamp(2rem,5vw,3.75rem); letter-spacing:-.045em; }
     .intro { margin:0; max-width:650px; color:var(--muted); }
-    .controls { display:grid; gap:12px; padding:18px; background:rgba(24,35,49,.88); border:1px solid var(--line); border-radius:14px; box-shadow:0 16px 48px #0004; position:sticky; top:12px; z-index:2; backdrop-filter:blur(10px); }
-    input,button,a { font:inherit; }
-    input { min-width:0; width:100%; padding:12px 14px; color:var(--text); background:#0f1822; border:1px solid #3d576d; border-radius:8px; outline:none; }
-    input:focus { border-color:var(--blue); box-shadow:0 0 0 3px #66c0f433; }
-    button { cursor:pointer; padding:12px 14px; color:var(--text); background:var(--panel2); border:1px solid #48677f; border-radius:8px; }
-    button:hover { border-color:var(--blue); }
-    .filters { display:flex; flex-wrap:wrap; gap:8px; }
-    .filter { padding:7px 11px; color:#c4d8e7; background:#22384a; border-color:#3b5c73; font-size:.82rem; }
-    .filter[aria-pressed="true"] { color:#112631; background:var(--blue); border-color:var(--blue); }
+    a { font:inherit; }
     .summary { display:flex; justify-content:space-between; gap:16px; margin:20px 0 12px; color:var(--muted); font-size:.9rem; }
     #games { display:grid; gap:14px; padding-bottom:40px; }
-    .game { overflow:hidden; display:grid; grid-template-columns:minmax(190px,31%) minmax(270px,1fr) minmax(260px,38%); min-width:0; background:linear-gradient(115deg,#1c2d3a,#101e26 58%,#091116); border:1px solid var(--line); border-radius:8px; box-shadow:0 6px 20px #0002; transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease; }
+    .game { overflow:hidden; display:grid; grid-template-columns:minmax(145px,23%) minmax(250px,1fr) minmax(230px,33%); min-width:0; background:linear-gradient(115deg,#1c2d3a,#101e26 58%,#091116); border:1px solid var(--line); border-radius:8px; box-shadow:0 6px 20px #0002; transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease; }
     .game:hover { transform:translateY(-3px); border-color:#5683a4; box-shadow:0 14px 26px #0005; }
-    .cover { display:block; position:relative; min-height:295px; background:linear-gradient(135deg,#294764,#142433); overflow:hidden; }
+    .cover { display:block; position:relative; min-height:205px; background:linear-gradient(135deg,#294764,#142433); overflow:hidden; }
     .cover img { width:100%; height:100%; object-fit:cover; display:block; }
     .cover:after { content:"EXTRA GAME"; position:absolute; top:10px; left:10px; padding:3px 8px; color:#10212c; background:var(--blue); font-size:.68rem; font-weight:800; letter-spacing:.08em; pointer-events:none; }
-    .card-body { display:flex; min-width:0; flex-direction:column; gap:9px; padding:18px 16px 14px; }
-    .title { margin:0; font-size:1.22rem; font-weight:750; overflow-wrap:anywhere; }
+    .cover-title { display:none; position:absolute; inset:0; z-index:1; align-items:flex-end; padding:20px 14px; color:#e8f6ff; background:radial-gradient(circle at 85% 10%,#2c6d98 0,transparent 42%),linear-gradient(145deg,#172d42,#071019); font-size:1.25rem; font-weight:800; line-height:1.12; }
+    .cover.no-art .cover-title { display:flex; }
+    .card-body { display:flex; min-width:0; flex-direction:column; gap:7px; padding:13px 14px 11px; }
+    .title { margin:0; font-size:1.08rem; font-weight:750; overflow-wrap:anywhere; }
     .badge { display:inline-block; margin-left:8px; padding:2px 7px; border-radius:99px; color:#182600; background:var(--green); font-size:.76rem; font-weight:800; vertical-align:middle; }
-    .details { min-height:3.9em; margin:0; color:#c2d0db; font-size:.88rem; overflow:hidden; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; }
-    .tags { min-height:22px; display:flex; flex-wrap:wrap; gap:5px; }
-    .tag { padding:3px 7px; color:#c8d9e7; background:#2b4054; border-radius:3px; font-size:.73rem; }
+    .details { min-height:2.7em; margin:0; color:#c2d0db; font-size:.82rem; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
     .release { color:#a4bdce; font-size:.76rem; }
-    .facts { display:grid; gap:5px; padding-top:2px; color:#91aabd; font-size:.75rem; }
+    .facts { display:grid; gap:3px; padding-top:2px; color:#91aabd; font-size:.72rem; }
     .fact { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .fact b { color:#d4e4ef; font-weight:650; }
     .score { color:#ccf270; }
-    .gallery { display:grid; grid-template-rows:minmax(150px,1fr) 74px; gap:6px; padding:12px 12px 12px 0; min-height:295px; }
+    .gallery { display:grid; grid-template-rows:minmax(100px,1fr) 50px; gap:5px; padding:8px 8px 8px 0; min-height:205px; }
     .shot-main, .shot-thumb { overflow:hidden; background:#0b171f; border-radius:3px; }
     .shot-main img, .shot-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .empty-shot { display:grid; place-items:center; background:linear-gradient(135deg,#162b3a,#0a141b); }
+    .empty-shot:after { content:"Steam image unavailable"; color:#658297; font-size:.72rem; }
     .thumbnails { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
     .actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:auto; }
     .action { text-decoration:none; white-space:nowrap; text-align:center; padding:9px 7px; border-radius:5px; font-size:.82rem; font-weight:700; }
@@ -52,8 +46,8 @@
     .action:hover { filter:brightness(1.12); }
     .empty { padding:44px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:10px; }
     footer { padding:4px 0 40px; color:var(--muted); font-size:.85rem; }
-    @media (max-width:820px) { .game { grid-template-columns:180px 1fr; } .gallery { grid-column:1 / -1; grid-row:2; padding:0 12px 12px; min-height:220px; grid-template-rows:1fr 62px; } }
-    @media (max-width:560px) { header { padding-top:36px; } .wrap { width:min(100% - 20px,1180px); } .controls { padding:10px; } .game { grid-template-columns:1fr; } .cover { min-height:250px; } .gallery { grid-column:auto; grid-row:auto; min-height:210px; } }
+    @media (max-width:820px) { .game { grid-template-columns:145px 1fr; } .gallery { grid-column:1 / -1; grid-row:2; padding:0 8px 8px; min-height:190px; grid-template-rows:1fr 50px; } }
+    @media (max-width:560px) { header { padding-top:36px; } .wrap { width:min(100% - 20px,1180px); } .game { grid-template-columns:1fr; } .cover { min-height:205px; } .gallery { grid-column:auto; grid-row:auto; min-height:180px; } }
   </style>
 </head>
 <body>
@@ -63,47 +57,27 @@
       <h1>evlsmurf's extra games</h1>
       <p class="intro">Search the collection, open a game directly in the Steam client, or visit its Steam Store page.</p>
     </header>
-    <section class="controls" aria-label="Game list controls">
-      <input id="search" type="search" autocomplete="off" placeholder="Search games…" aria-label="Search games">
-      <div class="filters" role="group" aria-label="Filter games by type">
-        <button class="filter" type="button" data-filter="all" aria-pressed="true">All games</button>
-        <button class="filter" type="button" data-filter="multiplayer" aria-pressed="false">Multiplayer</button>
-        <button class="filter" type="button" data-filter="coop" aria-pressed="false">Co-op</button>
-        <button class="filter" type="button" data-filter="fps" aria-pressed="false">FPS</button>
-      </div>
-    </section>
     <div class="summary"><span id="count"></span><span>Steam buttons may ask your browser to open Steam.</span></div>
     <section id="games" aria-live="polite"></section>
     <footer>Steam and the Steam logo are trademarks of Valve Corporation. This independent list is not affiliated with Valve.</footer>
   </main>
   <script>
     const games = [
-      ["112 Operator",793460],["911 Operator",503560],["AER Memories of Old",331870],["Aces and Adventures",1815570,2],["Achtung! Cthulhu Tactics",874460],["Afterplace",2721530],["Alba: A Wildlife Adventure",1337010],["Alfred Hitchcock - Vertigo",1449320],["Amnesia: Rebirth",999220],["Aquarium Designer",1339000],["Arcade Paradise",1388870],["Asterix & Obelix XXL 1",1261520],["Asterix XXL 2",887060],["BZZZT",1293170],["Bahnsen Knights",1933190,2],["Balrum",424250],["Barrow Hill: The Dark Path",520990],["Bee Simulator",914750],["Biped",1071870],["Black Book",1138660],["Blacksad: Under the Skin",1003890],["Breathedge",738520],["Brothers: Two Sons",225080],["CARNAGE OFFERING TD",null,1,"https://store.steampowered.com/search/?term=CARNAGE%20OFFERING%20TD"],["Call of Cthulhu Retail",399810],["Cardpocalypse",904400],["Chess Ultra",518060],["Chicken Invaders 2",449550],["Chicken Invaders 5",353090],["Circle Empires Rivals",1100260],["Crash Time III Comp",33620],["DOOM 3",208200],["DOOM 64",1148590],["DOOMBLADE",922050],["Dark Deity",1374840],["Delivery INC",1793260],["Desert Child",844050],["Dishonored WW",205100],["Distrust",635200],["Everdream Valley",1403650],["Fall of Porcupine",1710540],["Fargone",2242100],["FootLOL: Epic Soccer League",263740],["Fractured Minds",688740],["Future Breach 3D",2335790],["GRIP: Combat Racing Launch",396900],["GT Racing 1980",3037960],["Galactic Glitch",1536620],["Golden Chambers",2437570],["Golf Club Nostalgia",1556870],["Gori: Cuddly Carnage",1299690],["Hell Pie",889910],["How 2 Escape",2264140],["How to Say Goodbye",1709700],["In Sound Mind",1119980],["In Sound Mind Deluxe Edition - Retail Key",1119980],["Insurmountable",1385100],["Internet Cafe Simulator",1136160],["Iron Danger",899310],["Kerbal Space Program",220200],["King of Dragon Pass",352220],["Kingsgrave",2644360],["Knock'Em Out",2192900],["Lake (Global)",1118240],["Metro Exodus",412020],["Moon Hunters",320040],["Murky Divers",2963880],["Nex Machina",404540],["Not a Monster: First Contact",826600],["Nuclear Dawn",17710],["Operation: Polygon Storm",2310160],["Our World Is Ended",940650],["Out of Space",400080],["Oxygen",2061430],["PGA Tour 2K21",1016120],["Partisans 1941",1227530],["Pinball Spire",2601940],["PlateUp!",1599600],["Police Stories",539470],["Popup Dungeon",349730],["Pumpkin Jack",1186640],["Quadroids",2419690],["Radio Commander",871530],["Rage Retail",9200],["Ring of Pain",998740],["Rustler",844260],["Rustler(Grand Theft Horse)",844260],["SUPERHOT",322500],["SYSTEM SHOCK: ENHANCED",410710],["Shadow Tactics: BladesoftheShogun",418240],["Silent Sector",1159680],["Snow Moto Racing Freedom",587400],["Soda Crisis",1592670],["Song of Farca",1435670],["Sophia the Traveler",1602540],["Spyro Reignited Trilogy",996580],["Steal The Pig",3585400],["Still There",1063490],["Stray Path (ROW)",null,1,"https://store.steampowered.com/search/?term=Stray%20Path%20%28ROW%29"],["Streamer Life Simulator",1261040],["Supraland",813630],["Survivalist: Invisible Strain",1054510],["Syberia",46500],["Tempest: Pirate Action RPG",418180],["Teslagrad 2",1698220],["The Adventure of NAYU",1476340],["The Sandbox of God: Legacy Edition",840730],["The Shapeshifting Detective",898650],["The Wild Eight",526160],["The Witness",210970],["This War of Mine",282070],["Three Fourths Home: Extended Edition",344500],["Time Loader",1301950],["Tiny Robots Recharged",1709580],["Toki",1058320],["TombStar",1165470],["Tools Up!",1004490],["Train Valley",353640],["Train Valley 2",602320],["Tropico 3 Retail",23490],["Tunche",887450],["Vampire: The Masquerade",532790],["Verne: The Shape of Fantasy",1424600],["Wandersong",530320],["Wargroove",607050],["West of Dead",1016790],["Windward",326410],["Wizard of Legend",445980],["Wolfenstein 3D",2270],["Yesterday Origins",465280],["Yoku's Island Express",334940]
+      ["112 Operator",793460],["911 Operator",503560],["AER Memories of Old",331870],["Aces and Adventures",1815570,2],["Achtung! Cthulhu Tactics",874460],["Afterplace",2721530],["Alba: A Wildlife Adventure",1337010],["Alfred Hitchcock - Vertigo",1449320],["Amnesia: Rebirth",999220],["Aquarium Designer",1339000],["Arcade Paradise",1388870],["Asterix & Obelix XXL 1",1261520],["Asterix XXL 2",887060],["BZZZT",1293170],["Bahnsen Knights",1933190,2],["Balrum",424250],["Barrow Hill: The Dark Path",520990],["Bee Simulator",914750],["Biped",1071870],["Black Book",1138660],["Blacksad: Under the Skin",1003890],["Breathedge",738520],["Brothers: Two Sons",225080],["CARNAGE OFFERING TD",2298300],["Call of Cthulhu Retail",399810],["Cardpocalypse",904400],["Chess Ultra",518060],["Chicken Invaders 2",449550],["Chicken Invaders 5",353090],["Circle Empires Rivals",1100260],["Crash Time III Comp",33620],["DOOM 3",208200],["DOOM 64",1148590],["DOOMBLADE",922050],["Dark Deity",1374840],["Delivery INC",1793260],["Desert Child",844050],["Dishonored WW",205100],["Distrust",635200],["Everdream Valley",1403650],["Fall of Porcupine",1710540],["Fargone",2242100],["FootLOL: Epic Soccer League",263740],["Fractured Minds",688740],["Future Breach 3D",2335790],["GRIP: Combat Racing Launch",396900],["GT Racing 1980",3037960],["Galactic Glitch",1536620],["Golden Chambers",2437570],["Golf Club Nostalgia",1556870],["Gori: Cuddly Carnage",1299690],["Hell Pie",889910],["How 2 Escape",2264140],["How to Say Goodbye",1709700],["In Sound Mind",1119980],["In Sound Mind Deluxe Edition - Retail Key",1119980],["Insurmountable",1385100],["Internet Cafe Simulator",1136160],["Iron Danger",899310],["Kerbal Space Program",220200],["King of Dragon Pass",352220],["Kingsgrave",2644360],["Knock'Em Out",2192900],["Lake (Global)",1118240],["Metro Exodus",412020],["Moon Hunters",320040],["Murky Divers",2963880],["Nex Machina",404540],["Not a Monster: First Contact",826600],["Nuclear Dawn",17710],["Operation: Polygon Storm",2310160],["Our World Is Ended",940650],["Out of Space",400080],["Oxygen",2061430],["PGA Tour 2K21",1016120],["Partisans 1941",1227530],["Pinball Spire",2601940],["PlateUp!",1599600],["Police Stories",539470],["Popup Dungeon",349730],["Pumpkin Jack",1186640],["Quadroids",2419690],["Radio Commander",871530],["Rage Retail",9200],["Ring of Pain",998740],["Rustler",844260],["Rustler(Grand Theft Horse)",844260],["SUPERHOT",322500],["SYSTEM SHOCK: ENHANCED",410710],["Shadow Tactics: BladesoftheShogun",418240],["Silent Sector",1159680],["Snow Moto Racing Freedom",587400],["Soda Crisis",1592670],["Song of Farca",1435670],["Sophia the Traveler",1602540],["Spyro Reignited Trilogy",996580],["Steal The Pig",3585400],["Still There",1063490],["Stray Path (ROW)",2531940],["Streamer Life Simulator",1261040],["Supraland",813630],["Survivalist: Invisible Strain",1054510],["Syberia",46500],["Tempest: Pirate Action RPG",418180],["Teslagrad 2",1698220],["The Adventure of NAYU",1476340],["The Sandbox of God: Legacy Edition",840730],["The Shapeshifting Detective",898650],["The Wild Eight",526160],["The Witness",210970],["This War of Mine",282070],["Three Fourths Home: Extended Edition",344500],["Time Loader",1301950],["Tiny Robots Recharged",1709580],["Toki",1058320],["TombStar",1165470],["Tools Up!",1004490],["Train Valley",353640],["Train Valley 2",602320],["Tropico 3 Retail",23490],["Tunche",887450],["Vampire: The Masquerade",532790],["Verne: The Shape of Fantasy",1424600],["Wandersong",530320],["Wargroove",607050],["West of Dead",1016790],["Windward",326410],["Wizard of Legend",445980],["Wolfenstein 3D",2270],["Yesterday Origins",465280],["Yoku's Island Express",334940]
     ].map(([name,id,quantity=1,url]) => ({name,id,quantity,url:url || `https://store.steampowered.com/app/${id}/`}));
 
-    const list = document.querySelector('#games'), search = document.querySelector('#search'), count = document.querySelector('#count'), filterButtons = [...document.querySelectorAll('.filter')];
-    let activeFilter = 'all', filterDataLoaded = false;
+    const list = document.querySelector('#games'), count = document.querySelector('#count');
     const esc = value => value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     function render() {
-      const term = search.value.trim().toLocaleLowerCase();
-      let visible = games.filter(game => game.name.toLocaleLowerCase().includes(term) && matchesFilter(game));
+      let visible = games;
       visible = [...visible].sort((a,b) => a.name.localeCompare(b.name));
       const total = visible.reduce((sum,game) => sum + game.quantity,0);
-      count.textContent = `${visible.length} ${visible.length === 1 ? 'title' : 'titles'} · ${total} ${total === 1 ? 'key' : 'keys'}${activeFilter !== 'all' && !filterDataLoaded ? ' · Loading Steam tags…' : ''}`;
-      list.innerHTML = visible.length ? visible.map(g => `<article class="game" data-appid="${g.id || ''}"><div class="cover">${g.id ? `<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/library_600x900.jpg" alt="" loading="lazy" onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/header.jpg'; this.onerror=null">` : ''}</div><div class="card-body"><h2 class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</h2><div class="tags"></div><p class="details">${g.id ? 'Loading Steam details…' : 'Steam search result'}</p><div class="release"></div><div class="facts"></div><div class="actions">${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></div></div><div class="gallery"><div class="shot-main"></div><div class="thumbnails"><div class="shot-thumb"></div><div class="shot-thumb"></div><div class="shot-thumb"></div></div></div></article>`).join('') : '<div class="empty">No games match that search.</div>';
+      count.textContent = `${visible.length} ${visible.length === 1 ? 'title' : 'titles'} · ${total} ${total === 1 ? 'key' : 'keys'}`;
+      list.innerHTML = visible.map(g => `<article class="game" data-appid="${g.id || ''}"><div class="cover${g.id ? '' : ' no-art'}"><span class="cover-title">${esc(g.name)}</span>${g.id ? `<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/library_600x900.jpg" alt="" loading="lazy" onerror="this.src='https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/header.jpg'; this.onerror=() => { this.parentElement.classList.add('no-art'); this.remove(); }">` : ''}</div><div class="card-body"><h2 class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</h2><p class="details">${g.id ? 'Loading Steam details…' : 'Steam search result'}</p><div class="release"></div><div class="facts"></div><div class="actions">${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></div></div><div class="gallery"><div class="shot-main"></div><div class="thumbnails"><div class="shot-thumb"></div><div class="shot-thumb"></div><div class="shot-thumb"></div></div></div></article>`).join('');
       hydrateVisibleCards();
     }
     const detailsCache = new Map();
     let libraryRequest;
-    function matchesFilter(game) {
-      if (activeFilter === 'all') return true;
-      const data = game.id && detailsCache.get(String(game.id));
-      if (!data) return !filterDataLoaded;
-      const text = [data.short_description, ...(data.categories || []).map(item => item.description), ...(data.genres || []).map(item => item.description)].join(' ').toLocaleLowerCase();
-      if (activeFilter === 'multiplayer') return /multi-player|multiplayer|online pvp|shared.splitscreen pvp/.test(text);
-      if (activeFilter === 'coop') return /co-op|coop/.test(text);
-      return /first-person|\bfps\b|shooter/.test(text);
-    }
     async function getDetails(appid) {
       appid = String(appid);
       if (detailsCache.has(appid)) return detailsCache.get(appid);
@@ -116,12 +90,6 @@
       await libraryRequest;
       return detailsCache.get(appid) || null;
     }
-    async function loadFilterData() {
-      if (filterDataLoaded) return;
-      const ids = [...new Set(games.map(game => game.id).filter(Boolean))];
-      try { await getDetails(ids[0]); } catch { ids.forEach(id => detailsCache.set(String(id), null)); }
-      filterDataLoaded = true;
-    }
     async function hydrateCard(card) {
       const appid = card.dataset.appid;
       if (!appid || card.dataset.loaded) return;
@@ -133,23 +101,23 @@
         }
         if (!data) throw new Error('No Steam details');
         const description = card.querySelector('.details');
-        const tags = card.querySelector('.tags');
         const release = card.querySelector('.release');
         const facts = card.querySelector('.facts');
         const gallery = card.querySelector('.gallery');
+        const coverImage = card.querySelector('.cover img');
         const price = data.is_free ? 'Free to play' : data.price_overview?.final_formatted || 'Price unavailable';
         const platforms = Object.entries(data.platforms || {}).filter(([, available]) => available).map(([platform]) => platform === 'windows' ? 'Windows' : platform[0].toUpperCase() + platform.slice(1)).join(', ');
         const developer = data.developers?.[0] || '';
         const publisher = data.publishers?.[0] || '';
         const score = data.metacritic?.score ? `<span class="fact score"><b>Metacritic</b> ${data.metacritic.score}</span>` : '';
         description.textContent = data.short_description || 'View this title on Steam.';
-        tags.innerHTML = (data.genres || []).slice(0, 3).map(genre => `<span class="tag">${esc(genre.description)}</span>`).join('');
         release.textContent = data.release_date?.date ? `Released ${data.release_date.date}` : '';
+        if (data.header_image && coverImage) coverImage.src = data.header_image;
         facts.innerHTML = `<span class="fact"><b>Price</b> ${esc(price)}</span>${developer ? `<span class="fact" title="${esc(developer)}"><b>Dev</b> ${esc(developer)}</span>` : ''}${publisher ? `<span class="fact" title="${esc(publisher)}"><b>Publisher</b> ${esc(publisher)}</span>` : ''}${platforms ? `<span class="fact" title="${esc(platforms)}"><b>Platforms</b> ${esc(platforms)}</span>` : ''}${score}`;
         const shots = (data.screenshots || []).slice(0, 4).map(shot => shot.path_full);
         if (shots.length) {
-          gallery.querySelector('.shot-main').innerHTML = `<img src="${esc(shots[0])}" alt="Screenshot from ${esc(data.name)}" loading="lazy">`;
-          gallery.querySelectorAll('.shot-thumb').forEach((thumb, index) => { if (shots[index + 1]) thumb.innerHTML = `<img src="${esc(shots[index + 1])}" alt="" loading="lazy">`; });
+          gallery.querySelector('.shot-main').innerHTML = `<img src="${esc(shots[0])}" alt="Screenshot from ${esc(data.name)}" loading="lazy" onerror="this.parentElement.classList.add('empty-shot');this.remove()">`;
+          gallery.querySelectorAll('.shot-thumb').forEach((thumb, index) => { if (shots[index + 1]) thumb.innerHTML = `<img src="${esc(shots[index + 1])}" alt="" loading="lazy" onerror="this.parentElement.classList.add('empty-shot');this.remove()">`; });
         } else { gallery.style.display = 'none'; }
       } catch {
         card.querySelector('.details').textContent = 'Visit the Steam Store page for game details.';
@@ -161,13 +129,6 @@
       const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { hydrateCard(entry.target); observer.unobserve(entry.target); } }), { rootMargin: '300px' });
       cards.forEach(card => { if (card.dataset.appid) observer.observe(card); });
     }
-    search.addEventListener('input', render);
-    filterButtons.forEach(button => button.addEventListener('click', async () => {
-      activeFilter = button.dataset.filter;
-      filterButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-      if (activeFilter !== 'all' && !filterDataLoaded) { render(); await loadFilterData(); }
-      render();
-    }));
     render();
   </script>
 </body>
