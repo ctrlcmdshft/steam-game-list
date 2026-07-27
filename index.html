@@ -10,16 +10,8 @@
     * { box-sizing:border-box; }
     body { margin:0; min-width:320px; font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--text); background:radial-gradient(900px 500px at 90% -10%,#254d69 0,transparent 62%),var(--bg); }
     .wrap { width:min(1180px,calc(100% - 32px)); margin:auto; }
-    header { display:grid; place-items:center; padding:62px 20px 38px; text-align:center; }
-    h1 { margin:0; font:700 clamp(2rem,5vw,4.8rem)/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; letter-spacing:-.08em; color:#fff; }
-    .glitch-text { position:relative; display:inline-block; animation:glitch 1s linear infinite; }
-    .glitch-text:before,.glitch-text:after { content:attr(data-text); position:absolute; left:0; top:0; width:100%; color:#fff; pointer-events:none; }
-    .glitch-text:before { animation:glitch-top 1s linear infinite; clip-path:polygon(0 0,100% 0,100% 33%,0 33%); }
-    .glitch-text:after { animation:glitch-bottom 1.5s linear infinite; clip-path:polygon(0 67%,100% 67%,100% 100%,0 100%); }
-    @keyframes glitch { 2%,64% { transform:translate(2px,0) skew(0deg); } 4%,60% { transform:translate(-2px,0) skew(0deg); } 62% { transform:translate(0,0) skew(5deg); } }
-    @keyframes glitch-top { 2%,64% { transform:translate(2px,-2px); } 4%,60% { transform:translate(-2px,2px); } 62% { transform:translate(13px,-1px) skew(-13deg); } }
-    @keyframes glitch-bottom { 2%,64% { transform:translate(-2px,0); } 4%,60% { transform:translate(-2px,0); } 62% { transform:translate(-22px,5px) skew(21deg); } }
-    @media (prefers-reduced-motion:reduce) { .glitch-text,.glitch-text:before,.glitch-text:after { animation:none; } }
+    header { padding:48px 0 28px; }
+    h1 { margin:0; color:#eaf3fb; font-size:clamp(2rem,5vw,3.75rem); letter-spacing:-.045em; }
     a { font:inherit; }
     .summary { display:flex; justify-content:space-between; gap:16px; margin:20px 0 12px; color:var(--muted); font-size:.9rem; }
     #games { display:grid; gap:14px; padding-bottom:40px; }
@@ -59,7 +51,7 @@
 <body>
   <main class="wrap">
     <header>
-      <h1><span class="glitch-text" data-text="evlsmurf's extra games">evlsmurf's extra games</span></h1>
+      <h1>evlsmurf's extra games</h1>
     </header>
     <div class="summary"><span id="count"></span><span>Steam buttons may ask your browser to open Steam.</span></div>
     <section id="games" aria-live="polite"></section>
