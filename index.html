@@ -21,18 +21,27 @@
     button { cursor:pointer; padding:12px 14px; color:var(--text); background:var(--panel2); border:1px solid #48677f; border-radius:8px; }
     button:hover { border-color:var(--blue); }
     .summary { display:flex; justify-content:space-between; gap:16px; margin:20px 0 12px; color:var(--muted); font-size:.9rem; }
-    #games { display:grid; gap:10px; padding-bottom:40px; }
-    .game { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:12px; padding:15px 16px; background:linear-gradient(90deg,var(--panel),#1a2a39); border:1px solid var(--line); border-radius:10px; }
-    .game:hover { border-color:#5683a4; }
-    .title { font-weight:650; overflow-wrap:anywhere; }
+    #games { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; padding-bottom:40px; }
+    .game { overflow:hidden; display:flex; flex-direction:column; min-width:0; background:linear-gradient(145deg,var(--panel),#142535); border:1px solid var(--line); border-radius:10px; box-shadow:0 6px 20px #0002; transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease; }
+    .game:hover { transform:translateY(-3px); border-color:#5683a4; box-shadow:0 14px 26px #0005; }
+    .cover { display:block; position:relative; aspect-ratio:460/215; background:linear-gradient(135deg,#294764,#142433); overflow:hidden; }
+    .cover img { width:100%; height:100%; object-fit:cover; display:block; }
+    .cover:after { content:""; position:absolute; inset:50% 0 0; background:linear-gradient(transparent,#142535); pointer-events:none; }
+    .card-body { display:flex; flex:1; flex-direction:column; gap:9px; padding:0 14px 14px; margin-top:-11px; position:relative; z-index:1; }
+    .title { margin:0; min-height:2.8em; font-size:1.05rem; font-weight:750; overflow-wrap:anywhere; }
     .badge { display:inline-block; margin-left:8px; padding:2px 7px; border-radius:99px; color:#182600; background:var(--green); font-size:.76rem; font-weight:800; vertical-align:middle; }
-    .action { text-decoration:none; white-space:nowrap; text-align:center; padding:8px 11px; border-radius:6px; font-size:.87rem; font-weight:650; }
+    .details { min-height:2.8em; margin:0; color:var(--muted); font-size:.82rem; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+    .tags { min-height:22px; display:flex; flex-wrap:wrap; gap:5px; }
+    .tag { padding:3px 7px; color:#c8d9e7; background:#2b4054; border-radius:3px; font-size:.73rem; }
+    .release { color:#7e9ab0; font-size:.76rem; }
+    .actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:auto; }
+    .action { text-decoration:none; white-space:nowrap; text-align:center; padding:9px 7px; border-radius:5px; font-size:.82rem; font-weight:700; }
     .steam { color:#102411; background:var(--green); }
     .store { color:#d7efff; background:#275a78; }
     .action:hover { filter:brightness(1.12); }
     .empty { padding:44px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:10px; }
     footer { padding:4px 0 40px; color:var(--muted); font-size:.85rem; }
-    @media (max-width:620px) { header { padding-top:36px; } .wrap { width:min(100% - 20px,1180px); } .controls { padding:10px; } .game { grid-template-columns:1fr 1fr; gap:8px; } .title { grid-column:1/-1; } .action { padding:9px 6px; } }
+    @media (max-width:620px) { header { padding-top:36px; } .wrap { width:min(100% - 20px,1180px); } .controls { padding:10px; } #games { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -64,7 +73,38 @@
       if (alphabetical) visible = [...visible].sort((a,b) => a.name.localeCompare(b.name));
       const total = visible.reduce((sum,game) => sum + game.quantity,0);
       count.textContent = `${visible.length} ${visible.length === 1 ? 'title' : 'titles'} · ${total} ${total === 1 ? 'key' : 'keys'}`;
-      list.innerHTML = visible.length ? visible.map(g => `<article class="game"><div class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</div>${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></article>`).join('') : '<div class="empty">No games match that search.</div>';
+      list.innerHTML = visible.length ? visible.map(g => `<article class="game" data-appid="${g.id || ''}"><div class="cover">${g.id ? `<img src="https://cdn.cloudflare.steamstatic.com/steam/apps/${g.id}/header.jpg" alt="" loading="lazy" onerror="this.parentElement.innerHTML=''">` : ''}</div><div class="card-body"><h2 class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</h2><div class="tags"></div><p class="details">${g.id ? 'Loading Steam details…' : 'Steam search result'}</p><div class="release"></div><div class="actions">${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></div></div></article>`).join('') : '<div class="empty">No games match that search.</div>';
+      hydrateVisibleCards();
+    }
+    const detailsCache = new Map();
+    async function hydrateCard(card) {
+      const appid = card.dataset.appid;
+      if (!appid || card.dataset.loaded) return;
+      card.dataset.loaded = 'true';
+      try {
+        let data = detailsCache.get(appid);
+        if (!data) {
+          const response = await fetch(`https://store.steampowered.com/api/appdetails?appids=${appid}&l=en&cc=us`);
+          const result = await response.json();
+          data = result[appid]?.success ? result[appid].data : null;
+          detailsCache.set(appid, data);
+        }
+        if (!data) throw new Error('No Steam details');
+        const description = card.querySelector('.details');
+        const tags = card.querySelector('.tags');
+        const release = card.querySelector('.release');
+        description.textContent = data.short_description || 'View this title on Steam.';
+        tags.innerHTML = (data.genres || []).slice(0, 3).map(genre => `<span class="tag">${esc(genre.description)}</span>`).join('');
+        release.textContent = data.release_date?.date ? `Released ${data.release_date.date}` : '';
+      } catch {
+        card.querySelector('.details').textContent = 'Visit the Steam Store page for game details.';
+      }
+    }
+    function hydrateVisibleCards() {
+      const cards = [...list.querySelectorAll('[data-appid]')];
+      if (!('IntersectionObserver' in window)) { cards.slice(0, 12).forEach(hydrateCard); return; }
+      const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { hydrateCard(entry.target); observer.unobserve(entry.target); } }), { rootMargin: '300px' });
+      cards.forEach(card => { if (card.dataset.appid) observer.observe(card); });
     }
     search.addEventListener('input', render);
     sort.addEventListener('click', () => { alphabetical = !alphabetical; sort.textContent = alphabetical ? 'Original order' : 'Sort A–Z'; sort.setAttribute('aria-pressed', alphabetical); render(); });
