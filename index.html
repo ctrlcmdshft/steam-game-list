@@ -10,10 +10,21 @@
     * { box-sizing:border-box; }
     body { margin:0; min-width:320px; font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--text); background:radial-gradient(900px 500px at 90% -10%,#254d69 0,transparent 62%),var(--bg); }
     .wrap { width:min(1180px,calc(100% - 32px)); margin:auto; }
-    header { padding:56px 0 28px; }
-    .eyebrow { color:var(--blue); text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; font-weight:700; }
-    h1 { margin:.25rem 0 .5rem; font-size:clamp(2rem,5vw,3.75rem); letter-spacing:-.045em; }
-    .intro { margin:0; max-width:650px; color:var(--muted); }
+    header { position:relative; display:grid; place-items:center; min-height:220px; margin-top:24px; padding:42px 28px; overflow:hidden; isolation:isolate; text-align:center; border:1px solid #29465c; border-radius:12px; background:linear-gradient(118deg,#0b1521 0%,#152f43 46%,#081018 100%); box-shadow:inset 0 1px #6bcaff18,0 12px 36px #0004; }
+    header:before { content:""; position:absolute; z-index:-1; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,#66c0f455 0%,#66c0f411 32%,transparent 68%); filter:blur(8px); animation:drift 9s ease-in-out infinite alternate; }
+    header:after { content:""; position:absolute; inset:0; z-index:-1; opacity:.22; background:repeating-linear-gradient(115deg,transparent 0 26px,#8ccfff0a 27px 28px,transparent 29px 55px); mask-image:linear-gradient(90deg,transparent,#000 22% 78%,transparent); }
+    h1 { position:relative; margin:0; font-size:clamp(2.25rem,6vw,5.5rem); letter-spacing:-.055em; line-height:.95; font-weight:850; }
+    .glitch-text { position:relative; display:inline-block; background:linear-gradient(105deg,#eefaff 0%,#8bd3ff 25%,#fff 48%,#5caee3 72%,#dff5ff 100%); background-size:240% 100%; background-clip:text; -webkit-background-clip:text; color:transparent; text-shadow:0 0 28px #63c5ff22; animation:title-shine 7s linear infinite; }
+    .glitch-text:before,.glitch-text:after { content:attr(data-text); position:absolute; inset:0; pointer-events:none; background:transparent; color:#66d9ff; clip-path:inset(0); opacity:0; }
+    .glitch-text:before { text-shadow:-2px 0 #41dcff; animation:glitch-top 6s steps(1,end) infinite; }
+    .glitch-text:after { text-shadow:2px 0 #216aff; animation:glitch-bottom 6s steps(1,end) .18s infinite; }
+    h1:after { content:""; display:block; width:min(260px,54%); height:2px; margin:18px auto 0; background:linear-gradient(90deg,transparent,var(--blue),transparent); box-shadow:0 0 16px var(--blue); animation:line-pulse 2.4s ease-in-out infinite; }
+    @keyframes drift { from { transform:translate(-24%,-12%) scale(.9); } to { transform:translate(35%,16%) scale(1.12); } }
+    @keyframes title-shine { to { background-position:240% 0; } }
+    @keyframes line-pulse { 50% { transform:scaleX(.68); opacity:.5; } }
+    @keyframes glitch-top { 0%,88%,100% { opacity:0; transform:translate(0); clip-path:inset(0); } 89% { opacity:.8; transform:translate(-3px,-2px); clip-path:inset(0 0 62% 0); } 90% { opacity:.65; transform:translate(3px,1px); clip-path:inset(18% 0 37% 0); } 91% { opacity:0; } }
+    @keyframes glitch-bottom { 0%,88%,100% { opacity:0; transform:translate(0); clip-path:inset(0); } 89% { opacity:.75; transform:translate(3px,2px); clip-path:inset(68% 0 0 0); } 90% { opacity:.55; transform:translate(-3px,-1px); clip-path:inset(44% 0 18% 0); } 91% { opacity:0; } }
+    @media (prefers-reduced-motion:reduce) { header:before,.glitch-text,.glitch-text:before,.glitch-text:after,h1:after { animation:none; } }
     a { font:inherit; }
     .summary { display:flex; justify-content:space-between; gap:16px; margin:20px 0 12px; color:var(--muted); font-size:.9rem; }
     #games { display:grid; gap:14px; padding-bottom:40px; }
@@ -53,9 +64,7 @@
 <body>
   <main class="wrap">
     <header>
-      <div class="eyebrow">Shareable catalogue</div>
-      <h1>evlsmurf's extra games</h1>
-      <p class="intro">Search the collection, open a game directly in the Steam client, or visit its Steam Store page.</p>
+      <h1><span class="glitch-text" data-text="evlsmurf's extra games">evlsmurf's extra games</span></h1>
     </header>
     <div class="summary"><span id="count"></span><span>Steam buttons may ask your browser to open Steam.</span></div>
     <section id="games" aria-live="polite"></section>
