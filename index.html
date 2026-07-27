@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A shareable Steam game list with direct Steam and store links.">
+  <title>Steam Game List</title>
+  <style>
+    :root { color-scheme: dark; --bg:#101722; --panel:#182331; --panel2:#223346; --text:#eaf3fb; --muted:#a4b7c9; --blue:#66c0f4; --green:#a4d007; --line:#30465b; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--text); background:radial-gradient(900px 500px at 90% -10%,#254d69 0,transparent 62%),var(--bg); }
+    .wrap { width:min(1180px,calc(100% - 32px)); margin:auto; }
+    header { padding:56px 0 28px; }
+    .eyebrow { color:var(--blue); text-transform:uppercase; letter-spacing:.12em; font-size:.75rem; font-weight:700; }
+    h1 { margin:.25rem 0 .5rem; font-size:clamp(2rem,5vw,3.75rem); letter-spacing:-.045em; }
+    .intro { margin:0; max-width:650px; color:var(--muted); }
+    .controls { display:grid; grid-template-columns:1fr auto; gap:12px; padding:18px; background:rgba(24,35,49,.88); border:1px solid var(--line); border-radius:14px; box-shadow:0 16px 48px #0004; position:sticky; top:12px; z-index:2; backdrop-filter:blur(10px); }
+    input,button,a { font:inherit; }
+    input { min-width:0; width:100%; padding:12px 14px; color:var(--text); background:#0f1822; border:1px solid #3d576d; border-radius:8px; outline:none; }
+    input:focus { border-color:var(--blue); box-shadow:0 0 0 3px #66c0f433; }
+    button { cursor:pointer; padding:12px 14px; color:var(--text); background:var(--panel2); border:1px solid #48677f; border-radius:8px; }
+    button:hover { border-color:var(--blue); }
+    .summary { display:flex; justify-content:space-between; gap:16px; margin:20px 0 12px; color:var(--muted); font-size:.9rem; }
+    #games { display:grid; gap:10px; padding-bottom:40px; }
+    .game { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:12px; padding:15px 16px; background:linear-gradient(90deg,var(--panel),#1a2a39); border:1px solid var(--line); border-radius:10px; }
+    .game:hover { border-color:#5683a4; }
+    .title { font-weight:650; overflow-wrap:anywhere; }
+    .badge { display:inline-block; margin-left:8px; padding:2px 7px; border-radius:99px; color:#182600; background:var(--green); font-size:.76rem; font-weight:800; vertical-align:middle; }
+    .action { text-decoration:none; white-space:nowrap; text-align:center; padding:8px 11px; border-radius:6px; font-size:.87rem; font-weight:650; }
+    .steam { color:#102411; background:var(--green); }
+    .store { color:#d7efff; background:#275a78; }
+    .action:hover { filter:brightness(1.12); }
+    .empty { padding:44px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:10px; }
+    footer { padding:4px 0 40px; color:var(--muted); font-size:.85rem; }
+    @media (max-width:620px) { header { padding-top:36px; } .wrap { width:min(100% - 20px,1180px); } .controls { padding:10px; } .game { grid-template-columns:1fr 1fr; gap:8px; } .title { grid-column:1/-1; } .action { padding:9px 6px; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">Shareable catalogue</div>
+      <h1>Steam Game List</h1>
+      <p class="intro">Search the collection, open a game directly in the Steam client, or visit its Steam Store page.</p>
+    </header>
+    <section class="controls" aria-label="Game list controls">
+      <input id="search" type="search" autocomplete="off" placeholder="Search games…" aria-label="Search games">
+      <button id="sort" type="button" aria-pressed="false">Sort A–Z</button>
+    </section>
+    <div class="summary"><span id="count"></span><span>Steam buttons may ask your browser to open Steam.</span></div>
+    <section id="games" aria-live="polite"></section>
+    <footer>Steam and the Steam logo are trademarks of Valve Corporation. This independent list is not affiliated with Valve.</footer>
+  </main>
+  <script>
+    const games = [
+      ["112 Operator",793460],["911 Operator",503560],["AER Memories of Old",331870],["Aces and Adventures",1815570,2],["Achtung! Cthulhu Tactics",874460],["Afterplace",2721530],["Alba: A Wildlife Adventure",1337010],["Alfred Hitchcock - Vertigo",1449320],["Amnesia: Rebirth",999220],["Aquarium Designer",1339000],["Arcade Paradise",1388870],["Asterix & Obelix XXL 1",1261520],["Asterix XXL 2",887060],["BZZZT",1293170],["Bahnsen Knights",1933190,2],["Balrum",424250],["Barrow Hill: The Dark Path",520990],["Bee Simulator",914750],["Biped",1071870],["Black Book",1138660],["Blacksad: Under the Skin",1003890],["Breathedge",738520],["Brothers: Two Sons",225080],["CARNAGE OFFERING TD",null,1,"https://store.steampowered.com/search/?term=CARNAGE%20OFFERING%20TD"],["Call of Cthulhu Retail",399810],["Cardpocalypse",904400],["Chess Ultra",518060],["Chicken Invaders 2",449550],["Chicken Invaders 5",353090],["Circle Empires Rivals",1100260],["Crash Time III Comp",33620],["DOOM 3",208200],["DOOM 64",1148590],["DOOMBLADE",922050],["Dark Deity",1374840],["Delivery INC",1793260],["Desert Child",844050],["Dishonored WW",205100],["Distrust",635200],["Everdream Valley",1403650],["Fall of Porcupine",1710540],["Fargone",2242100],["FootLOL: Epic Soccer League",263740],["Fractured Minds",688740],["Future Breach 3D",2335790],["GRIP: Combat Racing Launch",396900],["GT Racing 1980",3037960],["Galactic Glitch",1536620],["Golden Chambers",2437570],["Golf Club Nostalgia",1556870],["Gori: Cuddly Carnage",1299690],["Hell Pie",889910],["How 2 Escape",2264140],["How to Say Goodbye",1709700],["In Sound Mind",1119980],["In Sound Mind Deluxe Edition - Retail Key",1119980],["Insurmountable",1385100],["Internet Cafe Simulator",1136160],["Iron Danger",899310],["Kerbal Space Program",220200],["King of Dragon Pass",352220],["Kingsgrave",2644360],["Knock'Em Out",2192900],["Lake (Global)",1118240],["Metro Exodus",412020],["Moon Hunters",320040],["Murky Divers",2963880],["Nex Machina",404540],["Not a Monster: First Contact",826600],["Nuclear Dawn",17710],["Operation: Polygon Storm",2310160],["Our World Is Ended",940650],["Out of Space",400080],["Oxygen",2061430],["PGA Tour 2K21",1016120],["Partisans 1941",1227530],["Pinball Spire",2601940],["PlateUp!",1599600],["Police Stories",539470],["Popup Dungeon",349730],["Pumpkin Jack",1186640],["Quadroids",2419690],["Radio Commander",871530],["Rage Retail",9200],["Ring of Pain",998740],["Rustler",844260],["Rustler(Grand Theft Horse)",844260],["SUPERHOT",322500],["SYSTEM SHOCK: ENHANCED",410710],["Shadow Tactics: BladesoftheShogun",418240],["Silent Sector",1159680],["Snow Moto Racing Freedom",587400],["Soda Crisis",1592670],["Song of Farca",1435670],["Sophia the Traveler",1602540],["Spyro Reignited Trilogy",996580],["Steal The Pig",3585400],["Still There",1063490],["Stray Path (ROW)",null,1,"https://store.steampowered.com/search/?term=Stray%20Path%20%28ROW%29"],["Streamer Life Simulator",1261040],["Supraland",813630],["Survivalist: Invisible Strain",1054510],["Syberia",46500],["Tempest: Pirate Action RPG",418180],["Teslagrad 2",1698220],["The Adventure of NAYU",1476340],["The Sandbox of God: Legacy Edition",840730],["The Shapeshifting Detective",898650],["The Wild Eight",526160],["The Witness",210970],["This War of Mine",282070],["Three Fourths Home: Extended Edition",344500],["Time Loader",1301950],["Tiny Robots Recharged",1709580],["Toki",1058320],["TombStar",1165470],["Tools Up!",1004490],["Train Valley",353640],["Train Valley 2",602320],["Tropico 3 Retail",23490],["Tunche",887450],["Vampire: The Masquerade",532790],["Verne: The Shape of Fantasy",1424600],["Wandersong",530320],["Wargroove",607050],["West of Dead",1016790],["Windward",326410],["Wizard of Legend",445980],["Wolfenstein 3D",2270],["Yesterday Origins",465280],["Yoku's Island Express",334940]
+    ].map(([name,id,quantity=1,url]) => ({name,id,quantity,url:url || `https://store.steampowered.com/app/${id}/`}));
+
+    const list = document.querySelector('#games'), search = document.querySelector('#search'), count = document.querySelector('#count'), sort = document.querySelector('#sort');
+    let alphabetical = false;
+    const esc = value => value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    function render() {
+      const term = search.value.trim().toLocaleLowerCase();
+      let visible = games.filter(game => game.name.toLocaleLowerCase().includes(term));
+      if (alphabetical) visible = [...visible].sort((a,b) => a.name.localeCompare(b.name));
+      const total = visible.reduce((sum,game) => sum + game.quantity,0);
+      count.textContent = `${visible.length} ${visible.length === 1 ? 'title' : 'titles'} · ${total} ${total === 1 ? 'key' : 'keys'}`;
+      list.innerHTML = visible.length ? visible.map(g => `<article class="game"><div class="title">${esc(g.name)}${g.quantity > 1 ? `<span class="badge">${g.quantity}×</span>` : ''}</div>${g.id ? `<a class="action steam" href="steam://store/${g.id}">Open in Steam</a>` : `<span class="action steam" title="Steam client link unavailable for search results">Steam search</span>`}<a class="action store" href="${g.url}" target="_blank" rel="noopener noreferrer">Store page ↗</a></article>`).join('') : '<div class="empty">No games match that search.</div>';
+    }
+    search.addEventListener('input', render);
+    sort.addEventListener('click', () => { alphabetical = !alphabetical; sort.textContent = alphabetical ? 'Original order' : 'Sort A–Z'; sort.setAttribute('aria-pressed', alphabetical); render(); });
+    render();
+  </script>
+</body>
+</html>
