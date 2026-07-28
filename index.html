@@ -12,6 +12,7 @@
     .wrap { width:min(1180px,calc(100% - 32px)); margin:auto; }
     header { display:grid; place-items:center; min-height:190px; padding:42px 0 28px; overflow:hidden; }
     .deconstructed { position:relative; width:max-content; max-width:100%; height:.9em; margin:0; color:transparent; font-size:clamp(1.25rem,6vw,5.75rem); font-weight:800; letter-spacing:-.055em; line-height:1; }
+    .deconstructed:before { content:attr(data-title); display:block; visibility:hidden; white-space:nowrap; }
     .deconstructed .slice { position:absolute; inset:0; color:#fff; pointer-events:none; white-space:nowrap; }
     .deconstructed .slice-1 { mask-image:linear-gradient(#000 25%,transparent 25%); -webkit-mask-image:linear-gradient(#000 25%,transparent 25%); animation:assemble-one 5s infinite; }
     .deconstructed .slice-2 { mask-image:linear-gradient(transparent 25%,#000 25%,#000 50%,transparent 50%); -webkit-mask-image:linear-gradient(transparent 25%,#000 25%,#000 50%,transparent 50%); animation:assemble-two 5s infinite; }
@@ -61,7 +62,7 @@
 <body>
   <main class="wrap">
     <header>
-      <h1 class="deconstructed" aria-label="evlsmurf's extra games">
+      <h1 class="deconstructed" data-title="evlsmurf's extra games" aria-label="evlsmurf's extra games">
         <span class="slice slice-1" aria-hidden="true">evlsmurf's extra games</span>
         <span class="slice slice-2" aria-hidden="true">evlsmurf's extra games</span>
         <span class="slice slice-3" aria-hidden="true">evlsmurf's extra games</span>
